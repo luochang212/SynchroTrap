@@ -54,6 +54,7 @@ def gen_normal_samples(scale, num_samples, bins, func):
     :param scale: 正态分布的标准差
     :param num_samples: 样本总数
     :param bins: 分箱数，即无重复的样本数
+    :param func: 样本值生成函数
     """
 
     # 生成符合正态分布的样本量
@@ -76,6 +77,8 @@ def gen_normal_samples(scale, num_samples, bins, func):
 
 
 def gen_user_table(uid_num, poisson_lambda, ip_scale, ip_bins):
+    """将 uid 和 ipv4 随机组合在一起，得到用户日志表"""
+
     query_num = np.random.poisson(lam=poisson_lambda, size=uid_num)
 
     # 生成 uid 字典，key 是 uid，value 是该 uid 产生的 query 数
@@ -104,6 +107,7 @@ def gen_user_table(uid_num, poisson_lambda, ip_scale, ip_bins):
 
 def lambda_func(t: int, epsilon: list, k: float = 1):
     """泊松分布的 lambda 关于时间 t 的函数
+
     :param t: 一天中的时间，单位是秒
     :param epsilon: 扰动项
     :param k: 放缩系数
@@ -116,12 +120,13 @@ def lambda_func(t: int, epsilon: list, k: float = 1):
 
 
 def seconds_to_datetime(seconds):
+    """将今天的第 x 秒转换为今天的时间"""
     t = (datetime.datetime.now() + datetime.timedelta(seconds=seconds))
     return t.strftime("%Y-%m-%d %H:%M:%S"), int(t.timestamp())
 
 
 def gen_time(sample_num, init_t):
-    """生成时间与时间戳
+    """假设用户访问是一个泊松过程，生成用户访问的 时间 和 时间戳
 
     :param sample_num: 样本量
     :param init_t: 初始秒数
