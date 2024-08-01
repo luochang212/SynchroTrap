@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from pyspark.sql import SparkSession
@@ -5,9 +7,9 @@ from pyspark.sql.functions import col
 from graphframes import GraphFrame
 
 
-T_sim = 120
-THRESHOLD = 0.03
-MIN_CNT = 1
+T_sim = 300
+THRESHOLD = 0.05
+MIN_CNT = 2
 
 FILE_PATH = '../data/'
 USER_FILE = 'user.csv'
@@ -35,26 +37,27 @@ sim = spark.sql(f"""
 SELECT
     uid_a,
     uid_b,
-    sum(if(ip_a=ip_b, 1, 0)) as ip_same_cnt,
-    count(*) as cnt,
-    round(sum(if(ip_a=ip_b, 1, 0)) / count(*), 3) as jaccard_sim
+    round(same_cnt / all_cnt, 4) as jaccard_sim
 FROM
 (
     SELECT
         a.uid as uid_a,
         b.uid as uid_b,
-        a.ipv4 as ip_a,
-        b.ipv4 as ip_b
+        count(distinct if(a.ipv4=b.ipv4, a.ipv4, null)) as same_cnt,
+        size(array_distinct(split(concat_ws(',',
+            concat_ws(',', collect_set(a.ipv4)),
+            concat_ws(',', collect_set(b.ipv4))
+        ), ','))) as all_cnt
     FROM
         user_table a
     JOIN
         user_table b ON a.uid < b.uid
         AND b.timestamp - a.timestamp <= {T_sim}
         AND b.timestamp - a.timestamp >= -{T_sim}
+    GROUP BY uid_a, uid_b
 ) t
-GROUP BY uid_a, uid_b
-HAVING jaccard_sim > {THRESHOLD}
-    AND cnt > {MIN_CNT}
+WHERE (same_cnt / all_cnt) > {THRESHOLD}
+    AND all_cnt > {MIN_CNT}
 """)
 
 # 获取点
