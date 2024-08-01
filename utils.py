@@ -233,9 +233,32 @@ def attack(attack_duration, ip_set, min_t, max_t):
     return log
 
 
-def gen_attack_df(attack_duration, start_time, end_time, ip_num, normal_ip_list, normal_ip_rate,
-                  uid_repeat_rate, min_t, max_t, epoch):
-    """生成攻击日志"""
+def gen_attack_df(
+    attack_duration: int,
+    start_time: datetime.datetime,
+    end_time: datetime.datetime,
+    ip_num: int,
+    normal_ip_list: list,
+    normal_ip_rate: float,
+    uid_repeat_rate: float,
+    min_t: int,
+    max_t: int,
+    epoch: int
+) -> pd.DataFrame:
+    """
+    生成攻击日志
+
+    :param attack_duration: 攻击持续的时间
+    :param start_time: 大盘数据的最早时间
+    :param end_time: 大盘数据的最晚时间
+    :param ip_num: ip 资源池的大小
+    :param normal_ip_list: 正常 ip 列表
+    :param normal_ip_rate: 正常 ip 的含量
+    :param uid_repeat_rate: 复用之前用过的 uid 的概率
+    :param min_t: 最小攻击间隔，单位秒
+    :param max_t: 最大攻击间隔，单位秒
+    :param epoch: 攻击线程数
+    """
     attack_dict = collections.defaultdict(list)
 
     attack_start_time = calc_attack_start_time(attack_duration, start_time, end_time)
