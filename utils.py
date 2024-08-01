@@ -248,13 +248,13 @@ def gen_attack_df(
     """
     生成攻击日志
 
-    :param attack_duration: 攻击持续的时间
+    :param attack_duration: 攻击持续时间
     :param start_time: 大盘数据的最早时间
     :param end_time: 大盘数据的最晚时间
-    :param ip_num: ip 资源池的大小
+    :param ip_num: ip 资源池大小
     :param normal_ip_list: 正常 ip 列表
-    :param normal_ip_rate: 正常 ip 的含量
-    :param uid_repeat_rate: 复用之前用过的 uid 的概率
+    :param normal_ip_rate: 正常 ip 的比例
+    :param uid_repeat_rate: 当前时刻复用之前用过的 uid 的概率
     :param min_t: 最小攻击间隔，单位秒
     :param max_t: 最大攻击间隔，单位秒
     :param epoch: 攻击线程数
