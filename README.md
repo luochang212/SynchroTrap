@@ -12,7 +12,7 @@
 - 复现了论文 2.2 节的可视化效果，见 [评估与可视化](https://luochang212.github.io/posts/synchrotrap/#三评估与可视化)
 - 介绍如何使用 `Docker` 构建 Spark 开发环境
 
-✨ 注意：运行以下代码依赖 <a href="https://github.com/luochang212/SynchroTrap/blob/main/utils.py" target="_blank">utils.py</a> 文件和 <a href="https://github.com/luochang212/SynchroTrap/tree/main/gen_data" target="_blank">gen_data</a> 库。
+✨ 注意：运行以下代码依赖 [utils.py](/utils.py) 文件和 [gen_data](/gen_data) 库。
 
 ### 一、样本生成
 
