@@ -2,8 +2,6 @@
 
 > SynchroTrap 是基于 Jaccard 相似度和最大连通子图的异常检测算法，出自 Facebook 的论文 <a href="https://users.cs.duke.edu/~xwy/publications/SynchroTrap-ccs14.pdf" target="_blank">Uncovering Large Groups of Active Malicious Accounts in Online Social Networks</a>.
 
-GitHub 项目地址：<a href="https://github.com/luochang212/SynchroTrap" target="_blank">SynchroTrap</a>
-
 本文做了什么：
 
 - 用 `mimesis` 生成源数据，并基于源数据构造正态分布的样本
